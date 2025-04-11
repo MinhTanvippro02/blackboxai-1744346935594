@@ -1,0 +1,95 @@
+{{ define "content" }}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center">
+        <div class="mb-8">
+            {{ if eq .code 404 }}
+                <i class="fas fa-map-signs text-6xl text-gray-400"></i>
+            {{ else if eq .code 403 }}
+                <i class="fas fa-lock text-6xl text-gray-400"></i>
+            {{ else if eq .code 500 }}
+                <i class="fas fa-exclamation-triangle text-6xl text-gray-400"></i>
+            {{ else }}
+                <i class="fas fa-exclamation-circle text-6xl text-gray-400"></i>
+            {{ end }}
+        </div>
+
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            {{ if .title }}
+                {{ .title }}
+            {{ else }}
+                {{ if eq .code 404 }}
+                    Page Not Found
+                {{ else if eq .code 403 }}
+                    Access Denied
+                {{ else if eq .code 500 }}
+                    Server Error
+                {{ else }}
+                    An Error Occurred
+                {{ end }}
+            {{ end }}
+        </h1>
+
+        <p class="text-xl text-gray-600 mb-8">
+            {{ if .error }}
+                {{ .error }}
+            {{ else }}
+                {{ if eq .code 404 }}
+                    The page you're looking for doesn't exist or has been moved.
+                {{ else if eq .code 403 }}
+                    You don't have permission to access this page.
+                {{ else if eq .code 500 }}
+                    Something went wrong on our end. Please try again later.
+                {{ else }}
+                    An unexpected error occurred. Please try again.
+                {{ end }}
+            {{ end }}
+        </p>
+
+        <div class="space-x-4">
+            <a href="/" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                <i class="fas fa-home mr-2"></i>Return Home
+            </a>
+            {{ if and (ne .code 403) (not .user) }}
+                <a href="/login" class="inline-block bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                </a>
+            {{ end }}
+        </div>
+
+        {{ if eq .code 404 }}
+            <div class="mt-12 text-gray-600">
+                <p>Looking for something specific?</p>
+                <ul class="mt-4 space-y-2">
+                    <li>
+                        <a href="/courts" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-table-tennis mr-2"></i>View Available Courts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/register" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-user-plus mr-2"></i>Create an Account
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/contact" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-envelope mr-2"></i>Contact Support
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {{ end }}
+
+        {{ if eq .code 500 }}
+            <div class="mt-12 text-gray-600">
+                <p>If the problem persists, please contact our support team:</p>
+                <p class="mt-2">
+                    <i class="fas fa-envelope mr-2"></i>support@picklecourt.com
+                </p>
+                <p>
+                    <i class="fas fa-phone mr-2"></i>(555) 123-4567
+                </p>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
