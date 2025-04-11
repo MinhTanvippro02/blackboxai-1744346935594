@@ -1,0 +1,138 @@
+{{ define "layout" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }} - Pickleball Court Management</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="/" class="text-xl font-bold">PickleCourt</a>
+                    </div>
+                    {{ if .user }}
+                        <div class="hidden md:ml-6 md:flex md:space-x-8">
+                            {{ if eq .user.Role "admin" }}
+                                <a href="/admin/dashboard" class="inline-flex items-center px-1 pt-1 text-white hover:text-gray-200">
+                                    <i class="fas fa-chart-line mr-2"></i>Dashboard
+                                </a>
+                            {{ else if eq .user.Role "coach" }}
+                                <a href="/coach/dashboard" class="inline-flex items-center px-1 pt-1 text-white hover:text-gray-200">
+                                    <i class="fas fa-clipboard mr-2"></i>Dashboard
+                                </a>
+                            {{ else }}
+                                <a href="/player/dashboard" class="inline-flex items-center px-1 pt-1 text-white hover:text-gray-200">
+                                    <i class="fas fa-home mr-2"></i>Dashboard
+                                </a>
+                            {{ end }}
+                            <a href="/courts" class="inline-flex items-center px-1 pt-1 text-white hover:text-gray-200">
+                                <i class="fas fa-table-tennis mr-2"></i>Courts
+                            </a>
+                            <a href="/bookings" class="inline-flex items-center px-1 pt-1 text-white hover:text-gray-200">
+                                <i class="fas fa-calendar-alt mr-2"></i>Bookings
+                            </a>
+                        </div>
+                    {{ end }}
+                </div>
+                <div class="flex items-center">
+                    {{ if .user }}
+                        <div class="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
+                            <div class="ml-3 relative">
+                                <div class="flex items-center space-x-4">
+                                    <a href="/profile" class="text-white hover:text-gray-200">
+                                        <i class="fas fa-user-circle mr-2"></i>{{ .user.Username }}
+                                    </a>
+                                    <a href="/logout" class="text-white hover:text-gray-200">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {{ else }}
+                        <a href="/login" class="text-white hover:text-gray-200 px-3 py-2">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </a>
+                        <a href="/register" class="bg-white text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md ml-3">
+                            <i class="fas fa-user-plus mr-2"></i>Register
+                        </a>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {{ if .flash }}
+        <div class="max-w-7xl mx-auto px-4 mt-4">
+            {{ range $type, $message := .flash }}
+                <div class="rounded-md p-4 mb-4 
+                    {{ if eq $type "success" }}bg-green-100 text-green-700{{ end }}
+                    {{ if eq $type "error" }}bg-red-100 text-red-700{{ end }}
+                    {{ if eq $type "info" }}bg-blue-100 text-blue-700{{ end }}">
+                    {{ $message }}
+                </div>
+            {{ end }}
+        </div>
+    {{ end }}
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        {{ template "content" . }}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About PickleCourt</h3>
+                    <p class="text-gray-300">
+                        Your premier destination for pickleball court management and bookings.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/courts" class="text-gray-300 hover:text-white">Available Courts</a></li>
+                        <li><a href="/bookings" class="text-gray-300 hover:text-white">Book a Court</a></li>
+                        {{ if not .user }}
+                            <li><a href="/register" class="text-gray-300 hover:text-white">Register</a></li>
+                        {{ end }}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-envelope mr-2"></i>support@picklecourt.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>(555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+                <p>&copy; {{ .currentYear }} PickleCourt. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{{ end }}
