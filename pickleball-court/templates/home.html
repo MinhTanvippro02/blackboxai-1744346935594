@@ -1,0 +1,155 @@
+{{ template "layout" . }}
+
+{{ define "content" }}
+<div class="space-y-12">
+    <!-- Hero Section -->
+    <div class="relative bg-blue-600 rounded-xl overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.pexels.com/photos/8224557/pexels-photo-8224557.jpeg" 
+                 alt="Pickleball Court" 
+                 class="w-full h-full object-cover opacity-20">
+        </div>
+        <div class="relative px-8 py-16 md:py-24 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                Welcome to PickleCourt
+            </h1>
+            <p class="text-xl text-gray-100 mb-8 max-w-2xl mx-auto">
+                Your premier destination for booking and managing pickleball courts. 
+                Join our community of players and start playing today!
+            </p>
+            {{ if not .user }}
+            <div class="space-x-4">
+                <a href="/register" 
+                   class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    Get Started
+                </a>
+                <a href="/login" 
+                   class="inline-block bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                    Sign In
+                </a>
+            </div>
+            {{ else }}
+            <a href="/courts" 
+               class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Book a Court
+            </a>
+            {{ end }}
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="py-12">
+        <h2 class="text-3xl font-bold text-center mb-12">Why Choose PickleCourt?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar-check text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Easy Booking</h3>
+                <p class="text-gray-600">
+                    Book your court in seconds with our intuitive booking system. 
+                    View availability in real-time and secure your spot instantly.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chalkboard-teacher text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Professional Coaching</h3>
+                <p class="text-gray-600">
+                    Learn from certified coaches and improve your game. 
+                    Book private or group sessions with experienced instructors.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Community Events</h3>
+                <p class="text-gray-600">
+                    Join tournaments and social events. Connect with other players 
+                    and become part of our growing pickleball community.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courts Preview Section -->
+    <div class="py-12">
+        <h2 class="text-3xl font-bold text-center mb-12">Our Premium Courts</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                <img src="https://images.pexels.com/photos/8224679/pexels-photo-8224679.jpeg" 
+                     alt="Indoor Court" 
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Indoor Courts</h3>
+                    <p class="text-gray-600 mb-4">
+                        Climate-controlled indoor courts available year-round, 
+                        perfect for any weather condition.
+                    </p>
+                    <a href="/courts" class="text-blue-600 hover:text-blue-800 font-semibold">
+                        View Availability →
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                <img src="https://images.pexels.com/photos/8224558/pexels-photo-8224558.jpeg" 
+                     alt="Outdoor Court" 
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Outdoor Courts</h3>
+                    <p class="text-gray-600 mb-4">
+                        Professional-grade outdoor courts with perfect lighting 
+                        for day and night play.
+                    </p>
+                    <a href="/courts" class="text-blue-600 hover:text-blue-800 font-semibold">
+                        View Availability →
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                <img src="https://images.pexels.com/photos/8224561/pexels-photo-8224561.jpeg" 
+                     alt="Training Court" 
+                     class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Training Courts</h3>
+                    <p class="text-gray-600 mb-4">
+                        Dedicated courts for training sessions with professional 
+                        coaches and practice equipment.
+                    </p>
+                    <a href="/courts" class="text-blue-600 hover:text-blue-800 font-semibold">
+                        View Availability →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gray-900 rounded-xl text-white p-12 text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to Start Playing?</h2>
+        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Join our community today and experience the best pickleball facilities 
+            in the area. Book your court now and start playing!
+        </p>
+        {{ if not .user }}
+        <div class="space-x-4">
+            <a href="/register" 
+               class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Create Account
+            </a>
+            <a href="/login" 
+               class="inline-block bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition">
+                Sign In
+            </a>
+        </div>
+        {{ else }}
+        <a href="/courts" 
+           class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Book a Court Now
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
