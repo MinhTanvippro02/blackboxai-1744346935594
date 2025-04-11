@@ -1,0 +1,213 @@
+{{ define "content" }}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Profile Header -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <div class="flex items-center">
+            <div class="p-4 bg-blue-100 rounded-full">
+                <i class="fas fa-user-circle text-4xl text-blue-600"></i>
+            </div>
+            <div class="ml-6">
+                <h1 class="text-2xl font-bold text-gray-900">My Profile</h1>
+                <p class="text-gray-600">
+                    {{ .user.Username }} • 
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        {{ if eq .user.Role "admin" }}bg-red-100 text-red-800
+                        {{ else if eq .user.Role "coach" }}bg-purple-100 text-purple-800
+                        {{ else }}bg-green-100 text-green-800{{ end }}">
+                        {{ .user.Role }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Information -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Account Information</h2>
+        <form id="profileForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700" for="username">
+                        Username
+                    </label>
+                    <input type="text" id="username" name="username" 
+                           value="{{ .user.Username }}"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700" for="email">
+                        Email Address
+                    </label>
+                    <input type="email" id="email" name="email" 
+                           value="{{ .user.Email }}"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Change Password</h2>
+        <form id="passwordForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700" for="currentPassword">
+                        Current Password
+                    </label>
+                    <input type="password" id="currentPassword" name="current_password" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" for="newPassword">
+                            New Password
+                        </label>
+                        <input type="password" id="newPassword" name="new_password" 
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" for="confirmPassword">
+                            Confirm New Password
+                        </label>
+                        <input type="password" id="confirmPassword" name="confirm_password" 
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    <i class="fas fa-key mr-2"></i>Update Password
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Activity History -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Activity</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {{ range .bookings }}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Court Booking</div>
+                            <div class="text-sm text-gray-500">{{ .CourtName }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ .StartTime.Format "Jan 02, 2006" }}</div>
+                            <div class="text-sm text-gray-500">{{ .StartTime.Format "15:04" }} - {{ .EndTime.Format "15:04" }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ if eq .Status "confirmed" }}bg-green-100 text-green-800
+                                {{ else if eq .Status "pending" }}bg-yellow-100 text-yellow-800
+                                {{ else }}bg-red-100 text-red-800{{ end }}">
+                                {{ .Status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Account Deletion -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Delete Account</h2>
+        <p class="text-gray-600 mb-4">
+            Once you delete your account, there is no going back. Please be certain.
+        </p>
+        <button onclick="confirmDeleteAccount()" 
+                class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+            <i class="fas fa-trash-alt mr-2"></i>Delete Account
+        </button>
+    </div>
+</div>
+
+<script>
+// Profile Update
+document.getElementById('profileForm').onsubmit = function(e) {
+    e.preventDefault();
+    fetch('/profile/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert('Profile updated successfully');
+            location.reload();
+        } else {
+            alert('Failed to update profile');
+        }
+    });
+};
+
+// Password Update
+document.getElementById('passwordForm').onsubmit = function(e) {
+    e.preventDefault();
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        alert('New passwords do not match');
+        return;
+    }
+
+    fetch('/profile/password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            current_password: document.getElementById('currentPassword').value,
+            new_password: newPassword,
+            confirm_password: confirmPassword,
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert('Password updated successfully');
+            document.getElementById('passwordForm').reset();
+        } else {
+            alert('Failed to update password');
+        }
+    });
+};
+
+// Account Deletion
+function confirmDeleteAccount() {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        fetch('/profile/delete', {
+            method: 'POST',
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = '/';
+            } else {
+                alert('Failed to delete account');
+            }
+        });
+    }
+}
+</script>
+{{ end }}
